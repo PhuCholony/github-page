@@ -1,5 +1,21 @@
 @import url('normalize.css');
 
+@media (prefers-color-scheme: light) {
+  /* Light Theme */
+  :root {
+    --bnd-primary-textColor: #000;
+    --bnd-primary-bgColor: #f8f8f8;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Dark Theme */
+  :root {
+    --bnd-primary-textColor: #fff;
+    --bnd-primary-bgColor: #101010;
+  }
+}
+
 /* Global Variables */
 :root {
   --bnd-fontFallback:
