@@ -33,6 +33,9 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Move 3rd-party license(s) to build folder
+        run: mv dist/PhuCholony/3rdpartylicenses.txt dist/PhuCholony/browser/LICENSE.txt
+
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
