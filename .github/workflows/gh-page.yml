@@ -1,0 +1,68 @@
+name: GitHub Page
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  CI:
+    name: Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit testing
+        run: npm run test
+
+      - name: Build application
+        run: npm run build
+
+      - name: Move 3rd-party license(s) to build folder
+        run: mv dist/PhuCholony/3rdpartylicenses.txt dist/PhuCholony/browser/LICENSE.txt
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: build-artifact
+          path: dist/PhuCholony/browser
+          retention-days: 7
+
+  CD:
+    name: Deployment
+    runs-on: ubuntu-latest
+    needs:
+      - CI
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: build-artifact
+          path: public
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: phucholony/phucholony.github.io
+          publish_branch: main
+          publish_dir: public
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
