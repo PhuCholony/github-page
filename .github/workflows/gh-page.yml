@@ -36,6 +36,9 @@ jobs:
       - name: Build application
         run: npm run build
 
+      - name: Copy index.html to 404.html for SPA
+        run: cp dist/PhuCholony/browser/index.html dist/PhuCholony/browser/404.html
+
       - name: Move 3rd-party license(s) to build folder
         run: mv dist/PhuCholony/3rdpartylicenses.txt dist/PhuCholony/browser/LICENSE.txt
 
