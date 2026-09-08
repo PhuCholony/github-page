@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+
+div {
+  display: flex;
+  column-gap: 1em;
+}
+
+p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 2rem;
+}
