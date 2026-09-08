@@ -1,4 +1,5 @@
-import { Service, signal } from '@angular/core'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Service, signal, inject } from '@angular/core'
 
 export interface User {
   id: number
@@ -13,6 +14,8 @@ export enum Role {
 
 @Service()
 export class AuthService {
+  private readonly http = inject(HttpClient)
+
   readonly auth = signal<boolean>(false)
   readonly user = signal<User | null>(null)
   readonly role = signal<Role>(Role.Anonymous)
@@ -32,11 +35,21 @@ export class AuthService {
       'visibilitychange',
       () => {
         if (document.visibilityState === 'visible') {
-          // TODO: Send request grant token with credentials
-          console.log('Tab is active and visible')
+          this.http
+            .get<{
+              accessToken: string
+              csrfToken: string
+            }>('/auth/grant_token', { credentials: 'include' })
+            .subscribe({
+              next: (tokens) => {
+                // TODO: Verify CSRF Token and Save Access Token to Memory
+                console.info(tokens)
 
-          // Login successfully
-          controller.abort()
+                // Login successfully
+                controller.abort()
+              },
+              error: (err: HttpErrorResponse) => console.error(err),
+            })
         }
       },
       { signal: controller.signal },
