@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+}
+
+div {
+  display: flex;
+  column-gap: 1em;
+}
