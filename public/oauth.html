@@ -31,7 +31,7 @@
           headers.append('Content-Type', 'application/json')
           headers.append('Authorization', `Bearer ${accessToken}`)
 
-          fetch('http://localhost:3000/auth/grant', { headers })
+          fetch('http://localhost:3000/auth/grant', { method: 'POST', headers })
             .then((response) => JSON.parse(response))
             .then((response) => console.info(response))
             .catch((err) => console.error(err))
