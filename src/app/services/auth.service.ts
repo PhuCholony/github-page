@@ -21,8 +21,11 @@ export class AuthService {
   readonly role = signal<Role>(Role.Anonymous)
 
   login() {
-    const csrfToken = crypto.randomUUID()
-    window.localStorage.setItem('csrf-token', csrfToken)
+    let csrfToken = window.sessionStorage.getItem('csrf-token')
+    if (!window.sessionStorage.getItem('csrf-token')) {
+      csrfToken = crypto.randomUUID()
+      window.sessionStorage.setItem('csrf-token', csrfToken)
+    }
 
     // Open oauth new tab from itch.io provider
     window.open(
