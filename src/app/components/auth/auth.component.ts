@@ -28,6 +28,42 @@ export class AuthComponent {
       `https://itch.io/user/oauth?client_id=20d6d200a84c78b3bcd91f33af78691e&scope=profile%3Ame&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Foauth.html&state=${csrfToken}`,
       '_blank',
     )
+
+    const controller = new AbortController()
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        if (document.visibilityState == 'visible') {
+          const jwt = this.getCookie('AT')
+          if (!jwt) return
+          this.authService.checkJwt(jwt).subscribe({
+            next: (res) => console.info(res),
+            complete: () => controller.abort(),
+          })
+        }
+      },
+      { signal: controller.signal },
+    )
+  }
+
+  /** TODO: Move this function to cookie utils */
+  getCookie(name: string): string | null {
+    // Split cookie string into individual name=value pairs
+    const cookies = document.cookie.split(';')
+
+    // Loop through each cookie
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim()
+
+      // Check if this cookie string begins with the name we want
+      if (cookie.startsWith(name + '=')) {
+        // Return the cookie value decoded
+        return decodeURIComponent(cookie.substring(name.length + 1))
+      }
+    }
+    // Return null if the cookie wasn't found
+    return null
   }
 
   private generateCsrfToken(): string {
