@@ -1,6 +1,22 @@
 import { HttpClient } from '@angular/common/http'
 import { Service, signal, inject } from '@angular/core'
 
+export interface Payload {
+  kid: `${string}-${string}-${string}-${string}-${string}`
+  iss: string
+  sub: number
+  iat: number
+  exp: number
+  aud: string[]
+  profile: string
+  avatar?: string
+  account: {
+    gamer: boolean
+    developer: boolean
+    press_user: boolean
+  }
+}
+
 export interface User {
   id: number
 }
