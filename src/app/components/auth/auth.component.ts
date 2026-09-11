@@ -1,6 +1,6 @@
 import { Component, effect, inject, output } from '@angular/core'
 
-import { AuthService, User } from '../../services/auth.service'
+import { AuthService, Payload, User, Role } from '../../services/auth.service'
 
 @Component({
   imports: [],
@@ -37,7 +37,14 @@ export class AuthComponent {
           const jwt = this.getCookie('AT')
           if (!jwt) return
           this.authService.checkJwt(jwt).subscribe({
-            next: (res) => console.info(res),
+            next: (res) => {
+              const payload: Payload = JSON.parse(atob(jwt.split('.')[1]))
+              this.authService.auth.set(true)
+              this.authService.user.set({
+                id: payload.sub,
+              })
+              this.authService.role.set(Role.Customer)
+            },
             complete: () => controller.abort(),
           })
         }

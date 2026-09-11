@@ -13,4 +13,8 @@ import { AuthComponent } from './components/auth/auth.component'
 })
 export class AppComponent {
   protected user?: User
+
+  setUserData(user: User) {
+    this.user = user
+  }
 }
