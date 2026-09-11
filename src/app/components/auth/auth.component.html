@@ -1,0 +1,5 @@
+@if (authService.auth() && authService.user()) {
+  <ng-content />
+} @else {
+  <button (click)="login()">Login</button>
+}
