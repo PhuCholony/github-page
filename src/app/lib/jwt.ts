@@ -1,6 +1,22 @@
 import { importSPKI, jwtVerify } from 'jose'
 
-import { JwtPayload } from '../services/auth.service'
+export interface JwtPayload {
+  kid: `${string}-${string}-${string}-${string}-${string}`
+  iss: string
+  sub: string
+  uid: number
+  iat: number
+  exp: number
+  nbf?: number
+  aud: string[]
+  profile: string
+  avatar?: string
+  account: {
+    developer: boolean
+    gamer: boolean
+    press: boolean
+  }
+}
 
 export class Jwt {
   static async decode(jwt: string): Promise<JwtPayload> {

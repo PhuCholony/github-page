@@ -1,24 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Service, signal, inject } from '@angular/core'
 
-export interface JwtPayload {
-  kid: `${string}-${string}-${string}-${string}-${string}`
-  iss: string
-  sub: string
-  uid: number
-  iat: number
-  exp: number
-  nbf?: number
-  aud: string[]
-  profile: string
-  avatar?: string
-  account: {
-    developer: boolean
-    gamer: boolean
-    press: boolean
-  }
-}
-
 export interface User {
   id: number
 }
