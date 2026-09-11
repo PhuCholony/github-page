@@ -1,4 +1,6 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
+
+import { HomeService } from './home.service'
 
 @Component({
   imports: [],
@@ -6,4 +8,6 @@ import { Component } from '@angular/core'
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  private readonly homeService = inject(HomeService)
+}
