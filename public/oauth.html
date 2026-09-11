@@ -68,14 +68,11 @@
 
       bootstrap()
         .then(async (accessToken) => {
-          const response = await fetch(
-            'http://localhost:3000/auth/token?grant_type=authorization_code',
-            {
-              headers: { Authorization: `Bearer ${accessToken}` },
-              credentials: 'include',
-              method: 'POST',
-            },
-          )
+          const response = await fetch('http://localhost:3000/auth/token', {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            credentials: 'include',
+            method: 'POST',
+          })
 
           if (!response.ok)
             throw new Error(
