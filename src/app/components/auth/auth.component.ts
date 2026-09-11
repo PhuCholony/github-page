@@ -1,6 +1,7 @@
 import { Component, effect, inject, output } from '@angular/core'
 
 import { AuthService, Payload, User, Role } from '../../services/auth.service'
+import { Cookie } from '../../utils/cookie'
 
 @Component({
   imports: [],
@@ -34,7 +35,7 @@ export class AuthComponent {
       'visibilitychange',
       () => {
         if (document.visibilityState == 'visible') {
-          const jwt = this.getCookie('AT')
+          const jwt = Cookie.get('AT')
           if (!jwt) return
           this.authService.checkJwt(jwt).subscribe({
             next: (res) => {
@@ -51,26 +52,6 @@ export class AuthComponent {
       },
       { signal: controller.signal },
     )
-  }
-
-  /** TODO: Move this function to cookie utils */
-  getCookie(name: string): string | null {
-    // Split cookie string into individual name=value pairs
-    const cookies = document.cookie.split(';')
-
-    // Loop through each cookie
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim()
-
-      // Check if this cookie string begins with the name we want
-      if (cookie.startsWith(name + '=')) {
-        // Return the cookie value decoded
-        return decodeURIComponent(cookie.substring(name.length + 1))
-      }
-    }
-    // Return null if the cookie wasn't found
-    return null
   }
 
   private generateCsrfToken(): string {
