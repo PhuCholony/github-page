@@ -2,12 +2,11 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
 import { AuthService } from './services/auth.service'
-import { AuthComponent } from './components/auth/auth.component'
 import { Cookie } from './utils/cookie'
 import { Jwt } from './lib/jwt'
 
 @Component({
-  imports: [RouterOutlet, AuthComponent],
+  imports: [RouterOutlet],
   selector: 'app-root',
   styleUrl: './app.component.css',
   templateUrl: './app.component.html',
