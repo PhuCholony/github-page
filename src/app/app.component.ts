@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
+import { User } from './services/auth.service'
+
 import { AuthComponent } from './components/auth/auth.component'
 
 @Component({
@@ -9,4 +11,6 @@ import { AuthComponent } from './components/auth/auth.component'
   styleUrl: './app.component.css',
   templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent {
+  protected user?: User
+}

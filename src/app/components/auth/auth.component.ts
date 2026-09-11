@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core'
+import { Component, effect, inject, output } from '@angular/core'
 
-import { AuthService } from '../../services/auth.service'
+import { AuthService, User } from '../../services/auth.service'
 
 @Component({
   imports: [],
@@ -10,6 +10,16 @@ import { AuthService } from '../../services/auth.service'
 })
 export class AuthComponent {
   protected readonly authService = inject(AuthService)
+
+  user = output<User>()
+
+  constructor() {
+    effect(() => {
+      const user = this.authService.user()
+      if (!user) return
+      this.user.emit(user)
+    })
+  }
 
   login(): void {
     const csrfToken = this.generateCsrfToken()

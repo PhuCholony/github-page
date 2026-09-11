@@ -1,5 +1,5 @@
 <router-outlet />
 
-<app-auth>
-  <p>Login Successfully!</p>
+<app-auth (user)="(user)">
+  <p>User id {{ user?.id }} authorized!</p>
 </app-auth>
