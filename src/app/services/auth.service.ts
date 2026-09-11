@@ -20,12 +20,9 @@ export class AuthService {
   readonly user = signal<User | null>(null)
   readonly role = signal<Role>(Role.Anonymous)
 
-  checkJwt(jwt: string) {
-    return this.http.get<{
-      statusCode: number
-      message: string
-    }>(`/auth/token`, {
-      headers: { Authorization: `Bearer ${jwt}` },
-    })
+  login(user: User, role: Role = Role.Customer) {
+    this.auth.set(true)
+    this.user.set(user)
+    this.role.set(role)
   }
 }
