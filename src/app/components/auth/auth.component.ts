@@ -34,10 +34,8 @@ export class AuthComponent {
           this.authCheckInternal = setInterval(async () => {
             const jwt = Cookie.get('AT')
             if (!jwt) return
-
             const payload = await Jwt.decode(jwt)
-            this.authService.login({ id: payload.uid })
-
+            this.authService.login(payload)
             controller.abort()
           }, 1000)
         } else if (document.visibilityState == 'hidden') {
