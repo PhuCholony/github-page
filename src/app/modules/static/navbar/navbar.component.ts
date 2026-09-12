@@ -1,7 +1,9 @@
 import { Component } from '@angular/core'
 
+import { ThemeComponent } from './theme/theme.component'
+
 @Component({
-  imports: [],
+  imports: [ThemeComponent],
   selector: 'app-navbar',
   styleUrl: './navbar.component.css',
   templateUrl: './navbar.component.html',

@@ -3,6 +3,11 @@ app-header {
   padding: 0 1em;
 }
 
+app-navbar {
+  box-shadow: var(--app-navbar-shadow);
+  background-color: var(--app-navbar-bgColor);
+}
+
 app-footer {
   margin-top: 2em;
 }

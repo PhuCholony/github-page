@@ -1,0 +1,14 @@
+<button (click)="toggleTheme()">
+  @switch (themeService.currentTheme()) {
+    @default
+    @case (theme.System) {
+      ⚙️
+    }
+    @case (theme.Light) {
+      ☀️
+    }
+    @case (theme.Dark) {
+      🌙
+    }
+  }
+</button>

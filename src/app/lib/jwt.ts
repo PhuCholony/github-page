@@ -7,10 +7,10 @@ export interface JwtPayload {
   uid: number
   iat: number
   exp: number
-  nbf?: number
   aud: string[]
   profile: string
   avatar?: string
+  username: string
   account: {
     developer: boolean
     gamer: boolean

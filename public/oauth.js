@@ -1,0 +1,70 @@
+/**
+ * Bootstrap OAuth callback from Itch.io.
+ * Validates the CSRF `state` returned in the URL hash against the value
+ * stored before the authorize redirect, then extracts the access token.
+ *
+ * @throws If the state is missing/mismatched, the provider returned an error,
+ *         or no access token was issued.
+ * @return {Promise<string>} The access token issued by Itch.io.
+ */
+async function bootstrap() {
+  const expectedState = window.sessionStorage.getItem('csrf-token')
+  // Nothing to compare against — this page was opened directly,
+  // or the flow was started in a different tab/session.
+  if (!expectedState)
+    throw new Error(
+      'No CSRF state found in session storage — was this page opened outside the OAuth flow?',
+    )
+
+  const hashFragment = window.location.hash.slice(1)
+  const hashParams = new URLSearchParams(hashFragment)
+
+  // Clear the hash immediately, regardless of outcome, so the
+  // token/state never lingers in the URL bar, browser history,
+  // or leaks via a Referer header on a later navigation.
+  history.replaceState(null, '', window.location.pathname)
+
+  // User denied the request, or itch.io rejected it — surface the
+  // real reason instead of falling through to a generic error below.
+  const oauthError = hashParams.get('error')
+  if (oauthError) throw new Error(`itch.io returned an error: ${oauthError}`)
+
+  const state = hashParams.get('state')
+  // itch.io didn't echo back a state param at all.
+  if (!state) throw new Error('No "state" param present in the callback URL.')
+
+  // State doesn't match what we stored — possible CSRF attempt,
+  // or a stale/replayed redirect.
+  if (state !== expectedState)
+    throw new Error('CSRF state mismatch — rejecting callback.')
+
+  // One-time use — remove it now that validation has succeeded so
+  // it can't be reused if this page is somehow revisited.
+  window.sessionStorage.removeItem('csrf-token')
+
+  const accessToken = hashParams.get('access_token')
+  // Shouldn't happen per spec once error/state checks pass, but
+  // guard anyway rather than resolving with null.
+  if (!accessToken)
+    throw new Error('No "access_token" param present in the callback URL.')
+
+  return accessToken
+}
+
+bootstrap()
+  .then(async (accessToken) => {
+    const response = await fetch('http://localhost:3000/auth/token', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      credentials: 'include',
+      method: 'POST',
+    })
+
+    if (!response.ok)
+      throw new Error(
+        `authorization request failed with status ${response.status}`,
+      )
+  })
+  .catch((err) => {
+    document.getElementById('message').textContent = err
+    console.error(err)
+  })
