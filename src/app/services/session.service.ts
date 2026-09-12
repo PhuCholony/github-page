@@ -8,6 +8,16 @@ import { Jwt, JwtPayload } from '../lib/jwt'
 export class SessionService {
   private readonly http = inject(HttpClient)
 
+  create(): void {
+    if (this.authenticate()) return
+    const csrfToken = crypto.randomUUID()
+    window.sessionStorage.setItem('csrf-token', csrfToken)
+    window.open(
+      `https://itch.io/user/oauth?client_id=20d6d200a84c78b3bcd91f33af78691e&scope=profile%3Ame&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Foauth.html&state=${csrfToken}`,
+      '_blank',
+    )
+  }
+
   authenticate(): boolean {
     return typeof Cookie.get('AT') == 'string'
   }
