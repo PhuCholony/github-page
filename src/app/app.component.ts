@@ -2,8 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 
 import { AuthService } from './services/auth.service'
-import { Cookie } from './utils/cookie'
-import { Jwt } from './lib/jwt'
+import { SessionService } from './services/session.service'
 
 @Component({
   imports: [RouterOutlet],
@@ -12,21 +11,23 @@ import { Jwt } from './lib/jwt'
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private readonly authService = inject(AuthService)
+  protected readonly authService = inject(AuthService)
+  private readonly sessionService = inject(SessionService)
 
-  ngOnInit(): void {
-    this.isAuthenticate()
+  async ngOnInit(): Promise<void> {
+    if (!this.sessionService.authenticate()) return
+    const payload = await this.sessionService.verify()
+    if (Math.floor(Date.now() / 1000) > payload.exp - 3600) {
+      this.sessionService.refresh().subscribe(async () => {
+        const payload = await this.sessionService.verify()
+        this.authService.login(payload)
+      })
+      return
+    }
+    this.authService.login(payload)
   }
 
-  ngOnDestroy(): void {
+  async ngOnDestroy(): Promise<void> {
     return
-  }
-
-  private async isAuthenticate(): Promise<void> {
-    const jwt = Cookie.get('AT')
-    if (!jwt) return
-
-    const payload = await Jwt.decode(jwt)
-    this.authService.login({ id: payload.uid })
   }
 }
