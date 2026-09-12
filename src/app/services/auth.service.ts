@@ -1,5 +1,7 @@
 import { Service, signal } from '@angular/core'
 
+import { JwtPayload } from '../lib/jwt'
+
 export interface User {
   id: number
   url: string
@@ -20,7 +22,18 @@ export class AuthService {
   readonly user = signal<User | null>(null)
   readonly role = signal<Role>(Role.Anonymous)
 
-  login(user: User, role: Role): void {
+  login(payload: JwtPayload): void {
+    const user: User = {
+      id: payload.uid,
+      url: payload.profile,
+      avatar: payload.avatar ?? '/avatar.webp',
+      username: payload.username,
+    }
+
+    let role = Role.Gamer
+    if (payload.account.developer) role = Role.Developer
+    else if (payload.account.press) role = Role.Press
+
     this.auth.set(true)
     this.user.set(user)
     this.role.set(role)
