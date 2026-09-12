@@ -2,13 +2,16 @@ import { Service, signal } from '@angular/core'
 
 export interface User {
   id: number
+  url: string
+  username: string
+  avatar: string
 }
 
 export enum Role {
   Anonymous,
-  Customer,
-  Moderator,
-  Administrator,
+  Developer,
+  Gamer,
+  Press,
 }
 
 @Service()
@@ -17,7 +20,7 @@ export class AuthService {
   readonly user = signal<User | null>(null)
   readonly role = signal<Role>(Role.Anonymous)
 
-  login(user: User, role: Role = Role.Customer) {
+  login(user: User, role: Role) {
     this.auth.set(true)
     this.user.set(user)
     this.role.set(role)
