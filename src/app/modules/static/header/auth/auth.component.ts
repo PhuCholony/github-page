@@ -1,14 +1,36 @@
 import { Component, inject } from '@angular/core'
 
-import { AuthComponent as AuthButtonComponent } from '../../../../components/auth/auth.component'
 import { AuthService } from '../../../../services/auth.service'
+import { SessionService } from '../../../../services/session.service'
 
 @Component({
-  imports: [AuthButtonComponent],
+  imports: [],
   selector: 'app-header-auth',
   styleUrl: './auth.component.css',
   templateUrl: './auth.component.html',
 })
 export class AuthComponent {
   protected readonly authService = inject(AuthService)
+  private readonly sessionService = inject(SessionService)
+
+  openProfile(): void {
+    window.open(this.authService.user()?.url)
+  }
+
+  login(): void {
+    this.sessionService.create()
+
+    const controller = new AbortController()
+    document.addEventListener(
+      'visibilitychange',
+      async () => {
+        if (document.visibilityState == 'visible') {
+          if (!this.sessionService.authenticate()) return
+          const payload = await this.sessionService.verify()
+          this.authService.login(payload)
+        }
+      },
+      { signal: controller.signal },
+    )
+  }
 }

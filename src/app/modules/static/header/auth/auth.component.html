@@ -1,5 +1,5 @@
-<app-auth>
-  <a [href]="authService.user()?.url" target="_blank" rel="noopener noreferrer"
-    >User</a
-  >
-</app-auth>
+@if (authService.auth() && authService.user()) {
+  <button (click)="openProfile()">User</button>
+} @else {
+  <button (click)="login()">Auth</button>
+}
