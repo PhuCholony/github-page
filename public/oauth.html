@@ -11,11 +11,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script
+      defer
       src="oauth.js"
-      integrity="sha384-bVYRGbITi+g9QnxBLi8NwkTsNxKVuL9iD2Y+4PyC02IQh/ZzD3itsPzdsCbL0Ks9"
+      integrity="sha384-n1AYqP4FMX5GzOg1ESS9ySsyvoubCFubjdPpMzZoTJgrUiWJpi2uJNbb4V2gErsV"
       crossorigin="anonymous"
     ></script>
-    <style></style>
+    <style>
+      body {
+        margin: 2em;
+        color: #000;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          'Open Sans',
+          'Helvetica Neue',
+          sans-serif;
+        background-color: #f8f8f8;
+      }
+
+      h1 {
+        color: #888;
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 4rem;
+        text-align: center;
+      }
+
+      h1 b {
+        color: #222;
+        font-weight: 600;
+      }
+
+      footer {
+        margin-top: 4em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message {
+        color: #222;
+        font-size: 1rem;
+        line-height: 2rem;
+        text-align: center;
+      }
+
+      .copyright {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+
+      .communicates {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 1em;
+      }
+
+      .communicates a {
+        padding: 1em;
+        background-color: #fff;
+        border-radius: 25%;
+        box-shadow: 0 0 12px 12px #00000003;
+      }
+
+      .communicates img {
+        display: block;
+        width: 50px;
+      }
+
+      .communicates span {
+        width: 50px;
+        height: 10px;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div class="communicates">
+      <a href="https://itch.io" target="_blank" rel="noopener noreferrer">
+        <img src="brand/itch.png" alt="Itch" />
+      </a>
+      <span style="background-color: green"></span>
+      <a
+        href="https://phucholony.github.io"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="brand/itch.png" alt="Integrator" />
+      </a>
+      <span style="background-color: gray"></span>
+      <a
+        href="https://phucholony.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img src="brand/itch.png" alt="Service" />
+      </a>
+    </div>
+    <h1>
+      <span id="status">Canceled Connection</span> <b>Integrator</b> to
+      <b>Service</b>
+    </h1>
+    <p class="message" id="message">
+      Error: No CSRF state found in session storage — was this page opened
+      outside the OAuth flow?
+    </p>
+    <footer>
+      <p class="copyright">
+        &copy; 2026 PhuCholony, Individual. All rights reserved.
+      </p>
+    </footer>
+  </body>
 </html>

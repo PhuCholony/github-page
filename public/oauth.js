@@ -64,4 +64,7 @@ bootstrap()
         `authorization request failed with status ${response.status}`,
       )
   })
-  .catch((err) => console.error(err))
+  .catch((err) => {
+    document.getElementById('message').textContent = err
+    console.error(err)
+  })
