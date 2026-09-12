@@ -1,0 +1,5 @@
+@if (authService.auth() && authService.user()) {
+  <button (click)="openProfile()">User</button>
+} @else {
+  <button (click)="login()">Auth</button>
+}
