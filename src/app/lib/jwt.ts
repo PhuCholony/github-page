@@ -7,7 +7,6 @@ export interface JwtPayload {
   uid: number
   iat: number
   exp: number
-  nbf?: number
   aud: string[]
   profile: string
   avatar?: string
