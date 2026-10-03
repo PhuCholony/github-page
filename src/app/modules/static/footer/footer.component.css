@@ -1,4 +1,16 @@
+a:not(:hover) {
+  text-decoration: none;
+}
+
+a {
+  color: #000;
+}
+
+a:hover {
+  color: #0969da;
+}
+
 .copyright {
   font-size: 0.8rem;
-  opacity: 0.8;
+  cursor: default;
 }
