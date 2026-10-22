@@ -5,10 +5,8 @@ import { TitleComponent } from './components/title/title.component';
 import { BioComponent } from './components/bio/bio.component';
 import { CopyrightComponent } from './components/copyright/copyright.component';
 
-import { StaticModule } from './modules/static/static.module';
-
 @Component({
-  imports: [ProfileComponent, TitleComponent, BioComponent, CopyrightComponent, StaticModule],
+  imports: [ProfileComponent, TitleComponent, BioComponent, CopyrightComponent],
   selector: 'app-root',
   styleUrl: './app.component.css',
   templateUrl: './app.component.html',
