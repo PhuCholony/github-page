@@ -1,5 +1,7 @@
 img {
+  padding: 4px;
   margin: auto;
   display: block;
   border-radius: 50%;
+  border: 2px dashed #222;
 }
