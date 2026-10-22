@@ -1,0 +1,17 @@
+a:not(:hover) {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0969da;
+}
+
+a {
+  color: #000;
+}
+
+p {
+  margin-bottom: 0;
+  font-size: 0.8rem;
+  cursor: default;
+}
