@@ -25,6 +25,9 @@
                 "input": "public"
               }
             ],
+            "security": {
+              "autoCsp": true
+            },
             "styles": ["src/styles.css"]
           },
           "configurations": {
