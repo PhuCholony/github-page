@@ -1,10 +1,9 @@
 :host {
   padding: 1em;
   margin: 1.5em auto;
-  display: flex;
-  flex-direction: column;
-  width: max-content;
+  display: block;
   min-width: 400px;
+  width: max-content;
   text-align: center;
   background-color: #fff;
   box-shadow: 2px 2px 0 0 #000;
